@@ -8,10 +8,10 @@ export const useTypingEffect = (text: string, delay: number) => {
     let interval: NodeJS.Timeout;
 
     const updateText = () => {
-      if (currentIndex === text.length) {
+      if (currentIndex === text?.length) {
         clearInterval(interval);
       } else {
-        setDisplayedText((prev) => prev + text[currentIndex]);
+        setDisplayedText((prev) => prev + text?.[currentIndex]);
         setCurrentIndex((prev) => prev + 1);
       }
     };
