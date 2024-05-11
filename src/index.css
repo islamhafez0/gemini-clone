@@ -226,7 +226,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 30px 25px;
+  padding: 30px 25px 0;
   transition: 0.3s all;
   .welcome {
     display: flex;

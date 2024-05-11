@@ -46,6 +46,7 @@ export const AppProvider = ({ children }: ProviderChildren) => {
     setResponse("");
     setPrompt("");
     setToggleSidebar(false);
+    setError("");
   };
 
   const contextValue = {

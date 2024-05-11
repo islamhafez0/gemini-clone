@@ -19,7 +19,7 @@ const AiResponse = () => {
       <>
         <div className="ai-response">
           <img src="/assets/gemini_icon.png" alt="gemini" />
-          {error && <p>{error}</p>}
+          {error ? <p>{error}</p> : null}
           {loading ? (
             <Loader />
           ) : (
