@@ -2,7 +2,7 @@ import { SetStateAction } from "react";
 import { MdLogout, MdMenu } from "react-icons/md";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { createAvatar } from "../helpers";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = ({
   setToggleSidebar,
@@ -26,7 +26,9 @@ const Header = ({
         >
           <MdMenu />
         </button>
-        <span className="logo">Gemini</span>
+        <Link to="/" className="logo">
+          Gemini
+        </Link>
       </div>
       <div>
         {user?.displayName! ? (
