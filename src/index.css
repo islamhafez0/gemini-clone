@@ -27,6 +27,20 @@ body {
     }
   }
 }
+.loader-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px;
+  background-color: #ffffff14;
+  border-radius: 5px;
+  .spinner {
+    margin-left: 20px;
+  }
+}
 .spinner {
   width: 15px;
   height: 15px;
@@ -37,9 +51,10 @@ body {
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
   &.wider {
+    border: 4px solid #fff;
+    border-bottom-color: transparent;
     width: 27px;
     height: 27px;
-    margin-left: 10px;
   }
 }
 
@@ -158,6 +173,7 @@ body {
 }
 .app {
   display: flex;
+  overflow: hidden;
 }
 .main {
   display: flex;
@@ -225,7 +241,7 @@ body {
 .home {
   max-width: 1200px;
   width: 100%;
-  height: calc(100vh - 108px);
+  height: calc(100vh - 71px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -356,9 +372,8 @@ body {
         height: 35px;
         border-radius: 50%;
       }
-      p {
-        padding-top: 10px;
-        padding-bottom: 20px;
+      .displayed-text {
+        padding: 10px 0 30px;
         transition: 0.3s all;
         line-height: 1.8;
         h1,
@@ -375,22 +390,30 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 50px;
     background-color: #cccccc0a;
     border-radius: 36px;
     position: relative;
-    input {
+    textarea {
       width: 100%;
-      height: 100%;
+      min-height: 50px;
+      max-height: 200px;
       border-radius: 35px;
       border: none;
-      padding: 0 20px;
+      padding: 10px 20px;
       background: transparent;
       outline: none;
       caret-color: #fff;
       color: #ffff;
+      resize: none;
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
       &::placeholder {
         color: #ffffffb8;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
       }
       &:focus {
         background-color: #cccccc29;
@@ -487,11 +510,13 @@ body {
   }
 }
 @media screen and (max-width: 667px) {
+  textarea {
+    max-height: 140px !important;
+  }
   .sidebar {
     transform: translateX(-100%);
-    display: none;
+    position: absolute;
     &.sidebarToggled {
-      position: absolute;
       transform: translateX(0);
       display: flex;
       z-index: 10;

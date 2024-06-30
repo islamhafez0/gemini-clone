@@ -5,15 +5,18 @@ import ResponseIcons from "./ResponseIcons";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { createAvatar } from "../helpers";
 const AiResponse = () => {
-  const { prompt, response, loading, error } = useAppContext();
+  const { prompt, response, formattedResponse, loading, error } =
+    useAppContext();
   const { user } = useAuthContext();
-  const displayedText = response ? useTypingEffect(response, 5) : "";
+  const displayedText = formattedResponse
+    ? useTypingEffect(formattedResponse, 5)
+    : "";
   const typingEffectFinished =
-    displayedText.length === response.length && !loading;
+    displayedText.length === formattedResponse.length && !loading;
   return (
     <div className="result">
       <div className="user-prompt">
-        {createAvatar(user?.displayName!)}
+        <div>{createAvatar(user?.displayName!)}</div>
         <h4>{prompt}</h4>
       </div>
       <>
@@ -23,7 +26,10 @@ const AiResponse = () => {
           {loading ? (
             <Loader />
           ) : (
-            <p dangerouslySetInnerHTML={{ __html: displayedText }}></p>
+            <div
+              className="displayed-text"
+              dangerouslySetInnerHTML={{ __html: displayedText }}
+            ></div>
           )}
         </div>
         {typingEffectFinished && (

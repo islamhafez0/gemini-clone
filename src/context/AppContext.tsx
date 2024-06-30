@@ -15,6 +15,7 @@ export const AppProvider = ({ children }: ProviderChildren) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [response, setResponse] = useState<string>("");
+  const [formattedResponse, setFormattedResponse] = useState<string>("");
   const [prompt, setPrompt] = useState<string>("");
   const onSentRequest = async () => {
     try {
@@ -22,6 +23,7 @@ export const AppProvider = ({ children }: ProviderChildren) => {
       setShowResults(true);
       setPrompt(input);
       const res = await runChat(input);
+      setResponse(res);
       const filteredRes = res.split("**");
       let newResponse = "";
       for (let i = 0; i < filteredRes.length; i++) {
@@ -32,7 +34,7 @@ export const AppProvider = ({ children }: ProviderChildren) => {
         }
       }
       const formattedRes = newResponse.split("*").join("<br />");
-      setResponse(formattedRes);
+      setFormattedResponse(formattedRes);
     } catch (error) {
       setError("Something went wrong please try again.");
       console.log(error);
@@ -61,6 +63,7 @@ export const AppProvider = ({ children }: ProviderChildren) => {
     error,
     onSentRequest,
     response,
+    formattedResponse,
     setResponse,
     prompt,
     setPrompt,

@@ -4,7 +4,8 @@ import { TUserCreateAccountData, TUserSigninData } from "../interface";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 const Login = () => {
-  const { firebaseError, firebaseLoading, signin } = useAuthContext();
+  const { firebaseError, firebaseLoading, signin, gettingCurrentUser } =
+    useAuthContext();
   const [userData, setUserData] = useState<TUserSigninData>({
     email: "",
     password: "",
@@ -36,6 +37,14 @@ const Login = () => {
       });
     }
   };
+  if (gettingCurrentUser) {
+    return (
+      <div className="loader-wrapper">
+        <span className="spinner wider"></span>
+        Loading....
+      </div>
+    );
+  }
   return (
     <div className="auth-form">
       {isAuth ? <Navigate to="/" /> : <Navigate to="/login" />}

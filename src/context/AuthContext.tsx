@@ -19,13 +19,16 @@ export const AuthContext = createContext<AuthContextProps | undefined>(
 );
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [firebaseLoading, setFirebaseLoading] = useState<boolean>(false);
+  const [gettingCurrentUser, setGettingCurrentUser] = useState<boolean>(true);
+  const [loadingProviderRegistration, setLoadingProviderRegistration] =
+    useState<boolean>(false);
   const [firebaseError, setFirebaseError] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);
   const { app } = useFirebaseContext();
   const auth = getAuth(app);
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setGettingCurrentUser(false);
       if (user) {
         setUser(user);
       } else {
@@ -96,7 +99,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signupWithGoogle = async () => {
     try {
-      setFirebaseLoading(true);
+      setLoadingProviderRegistration(true);
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       return true;
@@ -105,7 +108,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       handleFirebaseError(error);
       return false;
     } finally {
-      setFirebaseLoading(false);
+      setLoadingProviderRegistration(false);
     }
   };
 
@@ -113,6 +116,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (error instanceof FirebaseError) {
       setFirebaseError(error.message);
     }
+    setTimeout(() => {
+      setFirebaseError("");
+    }, 3000);
   };
   return (
     <AuthContext.Provider
@@ -122,6 +128,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         signUserOut,
         firebaseError,
         firebaseLoading,
+        gettingCurrentUser,
+        loadingProviderRegistration,
         user,
         isAuth: !!user,
         signupWithGoogle,

@@ -4,8 +4,15 @@ import { TUserCreateAccountData } from "../interface";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 const CreateAccount = () => {
-  const { firebaseError, firebaseLoading, signup, signupWithGoogle, isAuth } =
-    useAuthContext();
+  const {
+    firebaseError,
+    firebaseLoading,
+    loadingProviderRegistration,
+    gettingCurrentUser,
+    signup,
+    signupWithGoogle,
+    isAuth,
+  } = useAuthContext();
   const [userData, setUserData] = useState<TUserCreateAccountData>({
     displayName: "",
     email: "",
@@ -49,6 +56,15 @@ const CreateAccount = () => {
     }
   };
 
+  if (gettingCurrentUser) {
+    return (
+      <div className="loader-wrapper">
+        <span className="spinner wider"></span>
+        Loading....
+      </div>
+    );
+  }
+
   return (
     <div className="auth-form">
       {isAuth && <Navigate to="/" />}
@@ -79,12 +95,15 @@ const CreateAccount = () => {
           <button
             onClick={handleSignupWithProvider}
             className="provider-button"
+            disabled={loadingProviderRegistration}
           >
-            Signup With Google
-            {firebaseLoading ? (
+            {loadingProviderRegistration ? (
               <span className="spinner wider"></span>
             ) : (
-              <img src="/assets/google.png" alt="google" />
+              <>
+                <span>Signup With Google</span>
+                <img src="/assets/google.png" alt="google" />
+              </>
             )}
           </button>
         </div>

@@ -31,13 +31,17 @@ const Header = ({
         </Link>
       </div>
       <div>
-        {user?.displayName! ? (
-          createAvatar(user?.displayName!)
+        {user?.displayName ? (
+          createAvatar(user?.displayName)
         ) : (
           <span className="spinner"></span>
         )}
         {isAuth && (
-          <button disabled={!user} className="logout" onClick={handleLogout}>
+          <button
+            disabled={firebaseLoading}
+            className="logout"
+            onClick={handleLogout}
+          >
             {firebaseLoading ? <span className="spinner"></span> : <MdLogout />}
           </button>
         )}

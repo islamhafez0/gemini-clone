@@ -8,7 +8,6 @@ const MainContent = () => {
     <main className="main">
       <Header setToggleSidebar={setToggleSidebar} />
       <Home />
-      <p className="copyright">&copy; Islam Hafez {new Date().getFullYear()}</p>
     </main>
   );
 };

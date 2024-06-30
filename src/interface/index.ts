@@ -1,6 +1,6 @@
 import { FirebaseApp } from "firebase/app";
 import { User } from "firebase/auth";
-import { SetStateAction } from "react";
+import React, { SetStateAction } from "react";
 
 export type ContextTypes = {
   toggleSidebar: boolean;
@@ -14,6 +14,7 @@ export type ContextTypes = {
   error: string;
   onSentRequest: () => void;
   response: string;
+  formattedResponse: string;
   setResponse: React.Dispatch<SetStateAction<string>>;
   prompt: string;
   setPrompt: React.Dispatch<SetStateAction<string>>;
@@ -43,6 +44,8 @@ export type AuthContextProps = {
   }) => Promise<boolean>;
   signUserOut: () => Promise<boolean>;
   firebaseLoading: boolean;
+  gettingCurrentUser: boolean;
+  loadingProviderRegistration: boolean;
   firebaseError: string;
   user: User | null;
   isAuth: boolean;

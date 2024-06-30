@@ -59,6 +59,11 @@ const Sidebar = () => {
           <IoIosSettings />
           {toggleSidebar && <p>Settings</p>}
         </button>
+        {toggleSidebar && (
+          <p className="copyright">
+            &copy; Islam Hafez {new Date().getFullYear()}
+          </p>
+        )}
       </div>
     </nav>
   );
