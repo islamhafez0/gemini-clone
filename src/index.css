@@ -323,7 +323,7 @@ body {
     }
     .user-prompt {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 15px;
       margin-bottom: 35px;
       img {
@@ -394,7 +394,8 @@ body {
     border-radius: 36px;
     position: relative;
     textarea {
-      width: 100%;
+      width: calc(100% - 60px);
+      height: auto;
       min-height: 50px;
       max-height: 200px;
       border-radius: 35px;
@@ -406,22 +407,18 @@ body {
       color: #ffff;
       resize: none;
       overflow-y: scroll;
-      &::-webkit-scrollbar {
-        display: none;
-      }
+      transition: 0.3s;
       &::placeholder {
         color: #ffffffb8;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
       }
-      &:focus {
-        background-color: #cccccc29;
-      }
     }
     .input-icons {
       position: absolute;
       right: 20px;
+      bottom: 8px;
       display: flex;
       align-items: center;
       gap: 4px;
@@ -432,13 +429,14 @@ body {
         font-size: 18px;
         background: transparent;
         border: none;
-        color: #fff;
+        background-color: #fff;
+        color: #000;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         transition: 0.3s all;
-        &:hover {
+        &.i-disabled {
           background-color: #333;
         }
       }
@@ -544,17 +542,11 @@ body {
       }
     }
     .result {
-      .ai-response {
+      .user-prompt {
         flex-direction: column;
       }
-    }
-  }
-  .form {
-    .input {
-      .input-icons {
-        button:not(:last-child) {
-          display: none;
-        }
+      .ai-response {
+        flex-direction: column;
       }
     }
   }

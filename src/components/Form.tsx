@@ -1,10 +1,9 @@
-import { ChangeEvent, FormEvent, KeyboardEvent, useRef } from "react";
-import { BiImageAdd } from "react-icons/bi";
-import { MdOutlineKeyboardVoice } from "react-icons/md";
+import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from "react";
 import { LuSendHorizonal } from "react-icons/lu";
 import { useAppContext } from "../hooks/useAppContext";
 
 const Form = () => {
+  const [initialHeight, setInitialHeight] = useState<number | null>(null);
   const { input, setInput, onSentRequest, setResponse } = useAppContext();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -23,6 +22,9 @@ const Form = () => {
     setResponse("");
     onSentRequest();
     setInput("");
+    if (textareaRef.current && initialHeight !== null) {
+      textareaRef.current.style.height = `${initialHeight}px`;
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -31,6 +33,11 @@ const Form = () => {
     }
   };
 
+  const handleTextareaFocus = () => {
+    if (textareaRef.current && initialHeight === null) {
+      setInitialHeight(textareaRef.current.scrollHeight);
+    }
+  };
   return (
     <>
       <form onSubmit={handleSubmit} className="form">
@@ -41,16 +48,23 @@ const Form = () => {
             value={input}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
+            onFocus={handleTextareaFocus}
             rows={1}
+            style={{
+              overflowY:
+                textareaRef.current &&
+                textareaRef.current.scrollHeight >
+                  textareaRef.current.clientHeight
+                  ? "auto"
+                  : "hidden",
+            }}
           />
           <div className="input-icons">
-            <button>
-              <BiImageAdd />
-            </button>
-            <button>
-              <MdOutlineKeyboardVoice />
-            </button>
-            <button type="submit">
+            <button
+              type="submit"
+              className={`${!input.trim() ? "i-disabled" : ""} `}
+              disabled={!input.trim()}
+            >
               <LuSendHorizonal />
             </button>
           </div>
