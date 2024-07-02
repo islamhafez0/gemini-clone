@@ -1,9 +1,5 @@
 import React, { SetStateAction } from "react";
 
-export const handleSpeechSynthesis = (text: string): void => {
-  let uternace = new SpeechSynthesisUtterance(text);
-  speechSynthesis.speak(uternace);
-};
 
 export const copyToClipboard = (
   text: string,
@@ -22,3 +18,21 @@ export const copyToClipboard = (
     console.error("Failed to copy text to clipboard:", error);
   }
 };
+
+export const removeMarkdownSyntax = (markdownText: string) => {
+  return markdownText
+    .replace(/\*\*/g, '') 
+    .replace(/\*/g, '') 
+    .replace(/#/g, '') 
+    .replace(/-/g, '') 
+    .replace(/`/g, '') 
+    .replace(/\[.*?\]\(.*?\)/g, (match) => match.replace(/\[|\]|\(.*?\)/g, ''))
+    .replace(/!\[.*?\]\(.*?\)/g, (match) => match.replace(/!\[|\]|\(.*?\)/g, ''))
+    .replace(/\r?\n|\r/g, '\n') 
+    .trim(); 
+};
+
+export const containsArabicCharacters = (text: string) => {
+  const arabicCharacters = /[ابتثجحخدذرزسشصضطظعغفقكلمنهويءآٱأإةؤئى؟٠١٢٣٤٥٦٧٨٩٬٫]/;
+  return arabicCharacters.test(text)
+}

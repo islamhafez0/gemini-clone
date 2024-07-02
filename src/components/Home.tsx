@@ -1,13 +1,18 @@
 import { useAppContext } from "../hooks/useAppContext";
-import Form from "./Form";
-import AiResponse from "./AiResponse";
+import ChatForm from "./ChatForm";
+import ChatResults from "./ChatResults";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useTypingEffect } from "../hooks/useTypingEffect";
+import FlashingCursor from "./FlashingCursor";
 
 const Home = () => {
   const { showResults } = useAppContext();
   const { user } = useAuthContext();
-  const displayedText = useTypingEffect(user?.displayName!, 100);
+  const displayName = user?.displayName || "";
+  const [displayedText, isFinishedTyping] = useTypingEffect(
+    displayName || "Loading...",
+    100
+  );
   return (
     <>
       <div className="home">
@@ -15,15 +20,19 @@ const Home = () => {
           <>
             <div className="welcome">
               <h1>
-                Hello, {displayedText || "Loading..."}. <br />
+                Hello, {displayedText}
+                {!isFinishedTyping && (
+                  <FlashingCursor height="30px" width="4px" />
+                )}
+                . <br />
                 <p>How can I help you today?</p>
               </h1>
             </div>
           </>
         ) : (
-          <AiResponse />
+          <ChatResults />
         )}
-        <Form />
+        <ChatForm />
       </div>
     </>
   );

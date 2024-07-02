@@ -1,42 +1,39 @@
-import { useAppContext } from "../hooks/useAppContext";
+import { containsArabicCharacters } from "../utils";
 import Loader from "./Loader";
-import { useTypingEffect } from "../hooks/useTypingEffect";
+import MarkdownWithSyntaxHighlighter from "./MarkdownWithSyntaxHighlighter";
 import ResponseIcons from "./ResponseIcons";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { createAvatar } from "../helpers";
-const AiResponse = () => {
-  const { prompt, response, formattedResponse, loading, error } =
-    useAppContext();
-  const { user } = useAuthContext();
-  const displayedText = formattedResponse
-    ? useTypingEffect(formattedResponse, 5)
-    : "";
-  const typingEffectFinished =
-    displayedText.length === formattedResponse.length && !loading;
+
+const AiResponse = ({
+  error,
+  loading,
+  displayedText,
+  typingEffectFinished,
+  response,
+}: {
+  error: string;
+  loading: boolean;
+  displayedText: string;
+  typingEffectFinished: boolean;
+  response: string;
+}) => {
+  const isContainsArabic = containsArabicCharacters(response);
   return (
-    <div className="result">
-      <div className="user-prompt">
-        <div>{createAvatar(user?.displayName!)}</div>
-        <h4>{prompt}</h4>
-      </div>
-      <>
-        <div className="ai-response">
-          <img src="/assets/gemini_icon.png" alt="gemini" />
-          {error ? <p>{error}</p> : null}
-          {loading ? (
-            <Loader />
-          ) : (
-            <div
-              className="displayed-text"
-              dangerouslySetInnerHTML={{ __html: displayedText }}
-            ></div>
-          )}
-        </div>
-        {typingEffectFinished && (
-          <ResponseIcons response={response} loading={loading} />
+    <>
+      <div className={`ai-response ${isContainsArabic ? "rtl" : ""}`}>
+        <img src="/assets/gemini_icon.png" alt="gemini" />
+        {error && <p>{error}</p>}
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <MarkdownWithSyntaxHighlighter content={displayedText} />
+          </>
         )}
-      </>
-    </div>
+      </div>
+      {typingEffectFinished && (
+        <ResponseIcons response={response} loading={loading} />
+      )}
+    </>
   );
 };
 

@@ -68,7 +68,7 @@ const CreateAccount = () => {
   return (
     <div className="auth-form">
       {isAuth && <Navigate to="/" />}
-      <form onSubmit={handleSignup} className="login">
+      <form onSubmit={handleSignup} className="form-data">
         <h2>Create Account</h2>
         {firebaseError && <p className="error">{firebaseError}</p>}
         {createAccountInputs.map((input) => (

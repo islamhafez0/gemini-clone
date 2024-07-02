@@ -48,7 +48,7 @@ const Login = () => {
   return (
     <div className="auth-form">
       {isAuth ? <Navigate to="/" /> : <Navigate to="/login" />}
-      <form onSubmit={handleSigninSubmit} className="login">
+      <form onSubmit={handleSigninSubmit} className="form-data">
         <h2>Signin</h2>
         {firebaseError && <p className="error">{firebaseError}</p>}
         {signinInputs.map((input) => (

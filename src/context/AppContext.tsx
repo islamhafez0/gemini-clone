@@ -1,54 +1,55 @@
 import { ReactNode, createContext, useState } from "react";
 import runChat from "../config/gemini";
-import { ContextTypes } from "../interface";
+import { ContextTypes, InitialContextChatState } from "../interface";
 
 export const AppContext = createContext<ContextTypes | undefined>(undefined);
 
 type ProviderChildren = {
   children: ReactNode;
 };
-
+const INITIAL_STATE: InitialContextChatState = {
+  showResults: false,
+  loading: false,
+  error: "",
+  response: "",
+  prompt: "",
+};
 export const AppProvider = ({ children }: ProviderChildren) => {
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
-  const [showResults, setShowResults] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-  const [response, setResponse] = useState<string>("");
-  const [formattedResponse, setFormattedResponse] = useState<string>("");
-  const [prompt, setPrompt] = useState<string>("");
+
+  const [chatState, setChatState] = useState(INITIAL_STATE);
+
   const onSentRequest = async () => {
     try {
-      setLoading(true);
-      setShowResults(true);
-      setPrompt(input);
+      setChatState((prev) => ({
+        ...prev,
+        loading: true,
+        showResults: true,
+        prompt: input,
+      }));
       const res = await runChat(input);
-      setResponse(res);
-      const filteredRes = res.split("**");
-      let newResponse = "";
-      for (let i = 0; i < filteredRes.length; i++) {
-        if (i === 0 || i % 2 != 1) {
-          newResponse! += filteredRes[i];
-        } else {
-          newResponse! += "<b>" + filteredRes[i] + "</b>";
-        }
-      }
-      const formattedRes = newResponse.split("*").join("<br />");
-      setFormattedResponse(formattedRes);
+      setChatState((prev) => ({
+        ...prev,
+        response: res,
+      }));
     } catch (error) {
-      setError("Something went wrong please try again.");
+      setChatState((prev) => ({
+        ...prev,
+        error: "Something went wrong please try again.",
+      }));
       console.log(error);
     } finally {
-      setLoading(false);
+      setChatState((prev) => ({
+        ...prev,
+        loading: false,
+      }));
     }
   };
 
   const openNewChat = () => {
-    setShowResults(false);
-    setResponse("");
-    setPrompt("");
+    setChatState(INITIAL_STATE);
     setToggleSidebar(false);
-    setError("");
   };
 
   const contextValue = {
@@ -56,18 +57,10 @@ export const AppProvider = ({ children }: ProviderChildren) => {
     setToggleSidebar,
     input,
     setInput,
-    showResults,
-    setShowResults,
-    loading,
-    setLoading,
-    error,
+    ...chatState,
     onSentRequest,
-    response,
-    formattedResponse,
-    setResponse,
-    prompt,
-    setPrompt,
     openNewChat,
+    setChatState,
   };
   return (
     <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>

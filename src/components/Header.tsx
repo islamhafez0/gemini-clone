@@ -1,4 +1,4 @@
-import { SetStateAction } from "react";
+import { SetStateAction, useState } from "react";
 import { MdLogout, MdMenu } from "react-icons/md";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { createAvatar } from "../helpers";
@@ -9,7 +9,8 @@ const Header = ({
 }: {
   setToggleSidebar: React.Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { user, signUserOut, firebaseLoading, isAuth } = useAuthContext();
+  const [popup, setPopup] = useState(false);
+  const { user, signUserOut, firebaseLoading } = useAuthContext();
   const navigate = useNavigate();
   const handleLogout = async () => {
     const loggedOut = await signUserOut();
@@ -19,7 +20,7 @@ const Header = ({
   };
   return (
     <header className="header">
-      <div>
+      <div className="first-col">
         <button
           className="button"
           onClick={() => setToggleSidebar((prev) => !prev)}
@@ -30,22 +31,38 @@ const Header = ({
           Gemini
         </Link>
       </div>
-      <div>
-        {user?.displayName ? (
-          createAvatar(user?.displayName)
-        ) : (
+      <div className="second-col">
+        {!user?.displayName ? (
           <span className="spinner"></span>
+        ) : (
+          createAvatar(user?.displayName || "", setPopup)
         )}
-        {isAuth && (
+      </div>
+      {popup && (
+        <div className="popup">
+          <div className="user-details">
+            {createAvatar(user?.displayName || "")}
+            <strong className="email">{user?.email}</strong>
+            <p>
+              Hi! <strong>{user?.displayName}</strong>
+            </p>
+          </div>
+
           <button
             disabled={firebaseLoading}
             className="logout"
             onClick={handleLogout}
           >
-            {firebaseLoading ? <span className="spinner"></span> : <MdLogout />}
+            {firebaseLoading ? (
+              <span className="spinner"></span>
+            ) : (
+              <>
+                <MdLogout /> Sign out
+              </>
+            )}
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </header>
   );
 };

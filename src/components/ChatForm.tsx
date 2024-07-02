@@ -1,10 +1,11 @@
 import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from "react";
 import { LuSendHorizonal } from "react-icons/lu";
 import { useAppContext } from "../hooks/useAppContext";
+import { containsArabicCharacters } from "../utils";
 
-const Form = () => {
+const ChatForm = () => {
   const [initialHeight, setInitialHeight] = useState<number | null>(null);
-  const { input, setInput, onSentRequest, setResponse } = useAppContext();
+  const { input, setInput, onSentRequest, setChatState } = useAppContext();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
@@ -19,7 +20,10 @@ const Form = () => {
     if (!input || input.trim() === "") {
       return;
     }
-    setResponse("");
+    setChatState((prev) => ({
+      ...prev,
+      response: "",
+    }));
     onSentRequest();
     setInput("");
     if (textareaRef.current && initialHeight !== null) {
@@ -38,9 +42,10 @@ const Form = () => {
       setInitialHeight(textareaRef.current.scrollHeight);
     }
   };
+  const isContainsArabic = containsArabicCharacters(input);
   return (
     <>
-      <form onSubmit={handleSubmit} className="form">
+      <form onSubmit={handleSubmit} className="chat-form">
         <div className="input">
           <textarea
             ref={textareaRef}
@@ -58,6 +63,7 @@ const Form = () => {
                   ? "auto"
                   : "hidden",
             }}
+            className={`${isContainsArabic ? "rtl" : ""}`}
           />
           <div className="input-icons">
             <button
@@ -74,4 +80,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default ChatForm;

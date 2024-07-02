@@ -1,35 +1,30 @@
 import { useEffect, useState } from "react";
-
-export const useTypingEffect = (text: string, delay: number) => {
-  const [displayedText, setDisplayedText] = useState<string>("");
-  const [currentIndex, setCurrentIndex] = useState(0);
-
+type UseTypingEffectReturn = [string, boolean];
+export const useTypingEffect = (
+  text: string,
+  speed: number
+): UseTypingEffectReturn => {
+  const [displayedText, setDisplayedText] = useState("");
+  const [isFinishedTyping, setIsFinishedTyping] = useState(false);
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let intervalId: any;
+    setIsFinishedTyping(false);
+    let index = 0;
+    let displayedResponse = "";
 
-    const updateText = () => {
-      if (currentIndex === text?.length) {
-        clearInterval(interval);
-      } else {
-        setDisplayedText((prev) => prev + text?.[currentIndex]);
-        setCurrentIndex((prev) => prev + 1);
+    intervalId = setInterval(() => {
+      displayedResponse += text[index];
+      setDisplayedText(displayedResponse);
+      index++;
+
+      if (index >= text.length) {
+        clearInterval(intervalId);
+        setIsFinishedTyping(true);
       }
-    };
-
-    const animationFrame = requestAnimationFrame(() => {
-      interval = setInterval(updateText, delay);
-    });
-
+    }, speed);
     return () => {
-      cancelAnimationFrame(animationFrame);
-      clearInterval(interval);
+      clearInterval(intervalId);
     };
-  }, [currentIndex]);
-
-  useEffect(() => {
-    setCurrentIndex(0);
-    setDisplayedText("");
-  }, [text]);
-
-  return displayedText;
+  }, [text, speed]);
+  return [displayedText, isFinishedTyping];
 };

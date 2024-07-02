@@ -1,4 +1,9 @@
-export const createAvatar = (displayName: string) => {
+import { SetStateAction } from "react";
+
+export const createAvatar = (
+  displayName: string,
+  setPopup?: React.Dispatch<SetStateAction<boolean>>
+) => {
   const firstLetter = displayName?.slice(0, 1);
   let avatarClassname = "avatar ";
   if (/[AEIOU]/.test(firstLetter)) {
@@ -8,5 +13,12 @@ export const createAvatar = (displayName: string) => {
   } else {
     avatarClassname += "constant-avatar";
   }
-  return <span className={avatarClassname}>{firstLetter}</span>;
+  return (
+    <button
+      onClick={setPopup ? () => setPopup((prev) => !prev) : undefined}
+      className={avatarClassname}
+    >
+      {firstLetter?.toUpperCase()}
+    </button>
+  );
 };

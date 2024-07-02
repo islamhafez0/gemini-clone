@@ -2,22 +2,26 @@ import { FirebaseApp } from "firebase/app";
 import { User } from "firebase/auth";
 import React, { SetStateAction } from "react";
 
+export type InitialContextChatState = {
+  loading: boolean;
+  error: string;
+  prompt: string;
+  showResults: boolean;
+  response: string;
+}
+
 export type ContextTypes = {
   toggleSidebar: boolean;
   setToggleSidebar: React.Dispatch<SetStateAction<boolean>>;
   input: string;
   setInput: React.Dispatch<SetStateAction<string>>;
   showResults: boolean;
-  setShowResults: React.Dispatch<SetStateAction<boolean>>;
   loading: boolean;
-  setLoading: React.Dispatch<SetStateAction<boolean>>;
   error: string;
-  onSentRequest: () => void;
   response: string;
-  formattedResponse: string;
-  setResponse: React.Dispatch<SetStateAction<string>>;
   prompt: string;
-  setPrompt: React.Dispatch<SetStateAction<string>>;
+  setChatState: React.Dispatch<SetStateAction<InitialContextChatState>>
+  onSentRequest: () => void;
   openNewChat: () => void;
 };
 

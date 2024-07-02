@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(user);
       } else {
         setUser(null);
-        console.log("No user");
       }
     });
     return () => {
