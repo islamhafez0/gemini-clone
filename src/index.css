@@ -602,7 +602,7 @@ button {
     padding: 18px 15px;
     div.first-col {
       button {
-        display: block;
+        display: flex;
       }
     }
     .popup {
