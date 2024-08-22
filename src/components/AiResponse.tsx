@@ -25,9 +25,7 @@ const AiResponse = ({
         {loading ? (
           <Loader />
         ) : (
-          <>
-            <MarkdownWithSyntaxHighlighter content={displayedText} />
-          </>
+          <MarkdownWithSyntaxHighlighter content={displayedText} />
         )}
       </div>
       {typingEffectFinished && (

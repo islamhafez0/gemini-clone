@@ -9,22 +9,21 @@ body {
   background-color: #131314;
   color: #caccce;
 }
-button {
-  cursor: pointer;
-}
 .app {
   display: flex;
+  height: 100dvh;
   overflow: hidden;
 }
 .main {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  justify-content: space-between;
+  height: 100dvh;
   width: 100%;
 }
 .sidebar {
-  min-height: 100vh;
   background-color: #1e1f20;
+  height: 100%;
   width: 60px;
   padding: 20px 10px;
   display: flex;
@@ -114,7 +113,7 @@ button {
       color: #fff;
       font-size: 15px;
       border: none;
-      background-color: #3333338c;
+      background-color: #33333361;
       display: flex !important;
       align-items: center;
       justify-content: center;
@@ -128,13 +127,22 @@ button {
 }
 .home {
   max-width: 1200px;
+  max-height: calc(100vh - 130px);
   width: 100%;
-  height: calc(100vh - 71px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 30px 25px 0;
+  padding: 30px 25px;
   transition: 0.3s all;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 2px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #1e1f20;
+    border-radius: 5px;
+  }
   .welcome {
     display: flex;
     flex-direction: column;
@@ -183,14 +191,19 @@ button {
     max-width: 1200px;
     display: flex;
     flex-direction: column;
-    height: 100vh;
     overflow-y: scroll;
     &::-webkit-scrollbar {
-      display: none;
+      width: 2px;
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #1e1f20;
+      border-radius: 5px;
     }
     .user-prompt {
       display: flex;
       align-items: flex-start;
+      flex-wrap: wrap;
       gap: 15px;
       margin-bottom: 35px;
       img {
@@ -273,7 +286,7 @@ button {
     .response-icons {
       display: flex;
       justify-content: flex-start;
-      margin-bottom: 10px;
+      margin: 10px 0;
       padding: 0 0 20px 0;
       button {
         width: 30px;
@@ -300,8 +313,12 @@ button {
       }
     }
   }
+}
+.chat_form-wrapper {
+  padding: 0 25px 15px;
   .chat-form {
-    margin-bottom: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
     .input {
       display: flex;
       align-items: center;
@@ -362,10 +379,10 @@ button {
 .auth-form {
   display: flex;
   align-items: center;
-  height: 100vh;
-  max-width: 500px;
+  min-height: 100dvh;
+  max-width: 480px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 25px;
   .form-data {
     display: flex;
     flex-direction: column;
@@ -373,14 +390,6 @@ button {
     background-color: #33333330;
     padding: 25px 15px;
     border-radius: 10px;
-    div {
-      display: flex;
-      justify-content: flex-end;
-      padding-top: 15px;
-      a {
-        color: #fff;
-      }
-    }
     h2 {
       margin-bottom: 20px;
     }
@@ -398,12 +407,12 @@ button {
         border-color: #ccc;
       }
     }
-    button {
-      width: 100px;
-      background-color: transparent;
+    button[type="submit"] {
+      height: 40px;
+      width: 120px;
+      background-color: #33333361;
       color: #fff;
-      border: 1px solid #333;
-      padding: 6px 0;
+      border: 0;
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -411,23 +420,60 @@ button {
       outline: none;
       transition: 0.3s all;
       &:hover {
-        border-color: #ccc;
+        background-color: #333;
+      }
+      &:disabled {
+        &:hover {
+          background-color: #33333361;
+        }
       }
     }
     .provider {
       display: flex;
-      margin-top: 10px;
-      .provider-button {
-        width: 100% !important;
-        font-size: 18px;
-        img {
-          width: 30px;
-          height: 30px;
-          margin-left: 10px;
+      height: 40px;
+      justify-content: center;
+      align-items: center;
+      background-color: #33333361;
+      color: #fff;
+      margin-top: 20px;
+      font-size: 15px;
+      border-radius: 2px;
+      border: 0;
+      outline: 0;
+      transition: 0.2s all;
+      &:hover {
+        background-color: #333;
+      }
+      &:disabled {
+        &:hover {
+          background-color: #33333361;
         }
+      }
+      img {
+        width: 25px;
+        height: 25px;
+        margin-left: 10px;
+      }
+    }
+    a[href="/login"],
+    a[href="/create-account"] {
+      color: #fff;
+      margin-top: 20px;
+      font-weight: 300;
+      text-decoration: none;
+      text-align: center;
+      width: 100%;
+      &:hover {
+        color: #ccc;
       }
     }
   }
+}
+*:disabled {
+  cursor: default;
+}
+button {
+  cursor: pointer;
 }
 .code-info-wrapper {
   background-color: #cccccc36;
@@ -465,6 +511,7 @@ button {
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  margin-top: 20px;
   span {
     background: linear-gradient(to right, #3754e0e0, #fff 50%, #3754e0e0);
     background-size: 800px 50px;
@@ -488,10 +535,10 @@ button {
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
   &.wider {
-    border: 4px solid #fff;
+    border: 3px solid #fff;
     border-bottom-color: transparent;
-    width: 27px;
-    height: 27px;
+    width: 25px;
+    height: 25px;
   }
 }
 @keyframes rotation {
@@ -597,6 +644,7 @@ button {
 .rtl {
   direction: rtl;
 }
+
 @media screen and (max-width: 667px) {
   .header {
     padding: 18px 15px;
@@ -630,13 +678,13 @@ button {
       }
     }
     .chat-results {
-      .user-prompt {
-        flex-direction: column;
-      }
       .ai-response {
         flex-direction: column;
       }
     }
+  }
+  .chat_form-wrapper {
+    padding-inline: 15px;
     .chat-form {
       textarea {
         max-height: 140px !important;
@@ -650,6 +698,9 @@ button {
         }
       }
     }
+  }
+  .auth-form {
+    padding: 20px 20px;
   }
 }
 @media screen and (min-width: 1400px) {

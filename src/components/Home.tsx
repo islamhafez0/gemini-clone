@@ -1,5 +1,4 @@
 import { useAppContext } from "../hooks/useAppContext";
-import ChatForm from "./ChatForm";
 import ChatResults from "./ChatResults";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useTypingEffect } from "../hooks/useTypingEffect";
@@ -14,27 +13,24 @@ const Home = () => {
     100
   );
   return (
-    <>
-      <div className="home">
-        {!showResults ? (
-          <>
-            <div className="welcome">
-              <h1>
-                Hello, {displayedText}
-                {!isFinishedTyping && (
-                  <FlashingCursor height="30px" width="4px" />
-                )}
-                . <br />
-                <p>How can I help you today?</p>
-              </h1>
-            </div>
-          </>
-        ) : (
-          <ChatResults />
-        )}
-        <ChatForm />
-      </div>
-    </>
+    <div className="home">
+      {!showResults ? (
+        <>
+          <div className="welcome">
+            <h1>
+              Hello, {displayedText}
+              {!isFinishedTyping && (
+                <FlashingCursor height="30px" width="4px" />
+              )}
+              . <br />
+              <p>How can I help you today?</p>
+            </h1>
+          </div>
+        </>
+      ) : (
+        <ChatResults />
+      )}
+    </div>
   );
 };
 

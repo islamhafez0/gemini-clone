@@ -63,12 +63,10 @@ const Login = () => {
             />
           </React.Fragment>
         ))}
-        <button type="submit">
+        <button type="submit" disabled={firebaseLoading}>
           {firebaseLoading ? <span className="spinner"></span> : "Submit"}
         </button>
-        <div>
-          <Link to="/create-account">Don't have an account?</Link>
-        </div>
+        <Link to="/create-account">Don't have an account?</Link>
       </form>
     </div>
   );

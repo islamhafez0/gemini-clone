@@ -1,4 +1,11 @@
-import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { LuSendHorizonal } from "react-icons/lu";
 import { useAppContext } from "../hooks/useAppContext";
 import { containsArabicCharacters } from "../utils";
@@ -7,6 +14,11 @@ const ChatForm = () => {
   const [initialHeight, setInitialHeight] = useState<number | null>(null);
   const { input, setInput, onSentRequest, setChatState } = useAppContext();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    textareaRef.current?.focus();
+  }, []);
+
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
     if (textareaRef.current) {
@@ -44,39 +56,37 @@ const ChatForm = () => {
   };
   const isContainsArabic = containsArabicCharacters(input);
   return (
-    <>
-      <form onSubmit={handleSubmit} className="chat-form">
-        <div className="input">
-          <textarea
-            ref={textareaRef}
-            placeholder="Enter a prompt here"
-            value={input}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            onFocus={handleTextareaFocus}
-            rows={1}
-            style={{
-              overflowY:
-                textareaRef.current &&
-                textareaRef.current.scrollHeight >
-                  textareaRef.current.clientHeight
-                  ? "auto"
-                  : "hidden",
-            }}
-            className={`${isContainsArabic ? "rtl" : ""}`}
-          />
-          <div className="input-icons">
-            <button
-              type="submit"
-              className={`${!input.trim() ? "i-disabled" : ""} `}
-              disabled={!input.trim()}
-            >
-              <LuSendHorizonal />
-            </button>
-          </div>
+    <form onSubmit={handleSubmit} className="chat-form">
+      <div className="input">
+        <textarea
+          ref={textareaRef}
+          placeholder="Enter a prompt here"
+          value={input}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          onFocus={handleTextareaFocus}
+          rows={1}
+          style={{
+            overflowY:
+              textareaRef.current &&
+              textareaRef.current.scrollHeight >
+                textareaRef.current.clientHeight
+                ? "auto"
+                : "hidden",
+          }}
+          className={`${isContainsArabic ? "rtl" : ""}`}
+        />
+        <div className="input-icons">
+          <button
+            type="submit"
+            className={`${!input.trim() ? "i-disabled" : ""} `}
+            disabled={!input.trim()}
+          >
+            <LuSendHorizonal />
+          </button>
         </div>
-      </form>
-    </>
+      </div>
+    </form>
   );
 };
 

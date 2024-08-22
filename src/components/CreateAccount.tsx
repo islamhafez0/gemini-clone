@@ -85,28 +85,24 @@ const CreateAccount = () => {
             />
           </React.Fragment>
         ))}
-        <button type="submit">
+        <button type="submit" disabled={firebaseLoading}>
           {firebaseLoading ? <span className="spinner"></span> : "Submit"}
         </button>
-        <div>
-          <Link to="/login">Already have an account?</Link>
-        </div>
-        <div className="provider">
-          <button
-            onClick={handleSignupWithProvider}
-            className="provider-button"
-            disabled={loadingProviderRegistration}
-          >
-            {loadingProviderRegistration ? (
-              <span className="spinner wider"></span>
-            ) : (
-              <>
-                <span>Signup With Google</span>
-                <img src="/assets/google.png" alt="google" />
-              </>
-            )}
-          </button>
-        </div>
+        <button
+          onClick={handleSignupWithProvider}
+          className="provider"
+          disabled={loadingProviderRegistration}
+        >
+          {loadingProviderRegistration ? (
+            <span className="spinner wider"></span>
+          ) : (
+            <>
+              <span>Signup With Google</span>
+              <img src="/assets/google.png" alt="google" />
+            </>
+          )}
+        </button>
+        <Link to="/login">Already have an account?</Link>
       </form>
     </div>
   );
