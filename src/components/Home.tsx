@@ -20,7 +20,7 @@ const Home = () => {
             <h1>
               Hello, {displayedText}
               {!isFinishedTyping && (
-                <FlashingCursor height="30px" width="4px" />
+                <FlashingCursor height="1cap" width="4px" />
               )}
               . <br />
               <p>How can I help you today?</p>

@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+html {
+  scroll-behavior: smooth;
+}
 * {
   margin: 0;
   padding: 0;
@@ -11,14 +14,14 @@ body {
 }
 .app {
   display: flex;
-  height: 100dvh;
+  height: 100vh;
   overflow: hidden;
 }
 .main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100dvh;
+  height: 100%;
   width: 100%;
 }
 .sidebar {
@@ -127,7 +130,7 @@ body {
 }
 .home {
   max-width: 1200px;
-  max-height: calc(100vh - 130px);
+  max-height: calc(100vh - (70.97px + 65px));
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -192,6 +195,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
+    scroll-behavior: smooth;
     &::-webkit-scrollbar {
       width: 2px;
       background-color: transparent;
@@ -225,6 +229,7 @@ body {
       display: flex;
       align-items: flex-start;
       gap: 15px;
+      padding-bottom: 50px;
       img {
         width: 35px;
         height: 35px;
@@ -233,7 +238,6 @@ body {
       .markdown {
         display: flex;
         flex-direction: column;
-        margin: 0 0 50px;
         width: 100%;
         h2 {
           margin: 20px 0;
@@ -577,7 +581,7 @@ button {
   }
 }
 .disabled {
-  cursor: not-allowed;
+  cursor: default;
   color: #ffffff3d !important;
   user-select: none;
   svg {
@@ -617,8 +621,6 @@ button {
   color: white;
 }
 .cursor {
-  width: 2px;
-  height: 16px;
   background-color: #caccce;
   display: inline-block;
   border-radius: 2px;
@@ -678,6 +680,7 @@ button {
       }
     }
     .chat-results {
+      scroll-behavior: unset;
       .ai-response {
         flex-direction: column;
       }
