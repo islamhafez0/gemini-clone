@@ -21,9 +21,10 @@ const AiResponse = ({
     <>
       <div className={`ai-response ${isContainsArabic ? "rtl" : ""}`}>
         <img src="/assets/gemini_icon.png" alt="gemini" />
-        {error && <p>{error}</p>}
         {loading ? (
           <Loader />
+        ) : error ? (
+          <p>{error}</p>
         ) : (
           <MarkdownWithSyntaxHighlighter content={displayedText} />
         )}
