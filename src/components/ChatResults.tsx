@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 const ChatResults = () => {
   const { prompt, response, loading, error } = useAppContext();
   const { user } = useAuthContext();
-  const [displayedText] = useTypingEffect(response, 20);
+  const [displayedText] = useTypingEffect(response, 15);
   const [autoscroll, setAutoscroll] = useState(true);
   const typingEffectFinished =
     displayedText.length === response.length && !loading;
